@@ -1,13 +1,14 @@
 package com.example.jobportal.seviceImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.jobportal.dto.CompanyDto;
-import com.example.jobportal.dto.CompanyResponseDto;
+import com.example.jobportal.dto.request.CompanyRequestDto;
+import com.example.jobportal.dto.response.CompanyResponseDto;
 import com.example.jobportal.model.Company;
 import com.example.jobportal.repository.CompanyRepository;
 import com.example.jobportal.service.CompanyService;
@@ -24,7 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	
 	@Override
-	public CompanyResponseDto createCompany(CompanyDto dto) {
+	public CompanyResponseDto createCompany(CompanyRequestDto dto) {
 
 	    // Convert DTO to Entity
 	    Company company = modelMapper.map(dto, Company.class);
@@ -37,27 +38,40 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public CompanyDto getCompanyById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public CompanyResponseDto findById(Long companyId) {
+
+	    Company company = companyRepo.findById(companyId)
+	            .orElseThrow(() -> new RuntimeException("Company not found with ID: " + companyId));
+
+	    return modelMapper.map(company, CompanyResponseDto.class);
 	}
 
-	@Override
-	public List<CompanyDto> getAllCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public CompanyDto updateCompany(int id, CompanyDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CompanyResponseDto> getAllCompany() {
+	    return companyRepo.findAll()
+	            .stream()
+	            .map(company -> modelMapper.map(company, CompanyResponseDto.class))
+	            .toList();
 	}
 
-	@Override
-	public void deleteCompany(int id) {
-		// TODO Auto-generated method stub
-		
-	}
+@Override
+public void deleteCompany(Long companyId) {
+	// TODO Auto-generated method stub
+	 companyRepo.deleteById(companyId);
+}
+
+@Override
+public CompanyResponseDto updateCompany(Long companyId, CompanyRequestDto requestdto) {
+	   Company company = companyRepo.findById(companyId)
+	            .orElseThrow(() -> new RuntimeException("Company not found with ID: " + companyId));
+
+	    // Copy DTO values to existing entity
+	    modelMapper.map(requestdto, company);
+
+	    Company updatedCompany = companyRepo.save(company);
+
+	    return modelMapper.map(updatedCompany, CompanyResponseDto.class);
+}
 
 }

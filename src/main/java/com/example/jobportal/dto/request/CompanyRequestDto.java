@@ -1,9 +1,6 @@
-package com.example.jobportal.dto;
+package com.example.jobportal.dto.request;
 
-import java.time.LocalDateTime;
 
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyDto {
+public class CompanyRequestDto {
 	
-    private Long companyId;
     private String companyName;
     private String companyEmail;
     private String phoneNumber;
@@ -30,10 +26,8 @@ public class CompanyDto {
     private int employeeSize;
     private String registrationNumber;
     private String taxNumber;
-    private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
 
-	 //   private String companyLogo;
+	//private String companyLogo;
 
 }

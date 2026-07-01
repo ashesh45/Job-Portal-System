@@ -2,18 +2,18 @@ package com.example.jobportal.service;
 
 import java.util.List;
 
-import com.example.jobportal.dto.CompanyDto;
-import com.example.jobportal.dto.CompanyResponseDto;
+import com.example.jobportal.dto.request.CompanyRequestDto;
+import com.example.jobportal.dto.response.CompanyResponseDto;
 
 public interface CompanyService {
-    CompanyResponseDto createCompany(CompanyDto dto);
+    CompanyResponseDto createCompany(CompanyRequestDto dto);
 
-    CompanyDto getCompanyById(int id);
+    CompanyResponseDto findById(Long companyId);
 
-    List<CompanyDto> getAllCompany();
+    List<CompanyResponseDto> getAllCompany();
 
-    CompanyDto updateCompany(int id, CompanyDto dto);
+    CompanyResponseDto updateCompany(Long companyId, CompanyRequestDto requestdto);
 
-    void deleteCompany(int id);
+    void deleteCompany(Long companyId);
 
 }

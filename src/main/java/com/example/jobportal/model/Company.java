@@ -1,12 +1,18 @@
 package com.example.jobportal.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -68,6 +74,17 @@ public class Company {
 	    private LocalDateTime createdAt;
 
 	    private LocalDateTime updatedAt;
+	    
+
+	    // One company has many employers/users
+	    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+	    @JsonManagedReference
+	    private List<User> users = new ArrayList<>();
+
+	    // One company posts many jobs
+	    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+	    @JsonManagedReference
+	    private List<Job> jobs = new ArrayList<>();
 
 	    @PrePersist
 	    public void prePersist() {
